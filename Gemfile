@@ -19,10 +19,16 @@ gem "devise", "~> 4.9"
 
 group :development, :test do
   gem "byebug", platform: :mri
-  gem 'rspec-rails'
-  # gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end
 
 group :development do
   gem "web-console"
+end
+
+group :test do
+  gem "rspec-rails"
+  gem "factory_bot_rails"
+  gem "faker"
+  gem "shoulda-matchers", "~> 6.0"
+  gem "rails-controller-testing"
 end
