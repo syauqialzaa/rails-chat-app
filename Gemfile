@@ -18,8 +18,9 @@ gem "bootsnap", require: false
 gem "devise", "~> 4.9"
 
 group :development, :test do
-  gem "byebug"
-  gem "debug", platforms: %i[ mri mingw x64_mingw ]
+  gem "byebug", platform: :mri
+  gem 'rspec-rails'
+  # gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end
 
 group :development do
