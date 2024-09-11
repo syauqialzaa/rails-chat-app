@@ -39,10 +39,7 @@ jobs:
         env:
           RAILS_ENV: test
           RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-        run: |
-          bin/rails db:create
-          bin/rails db:migrate
-          bin/rails db:test:prepare
+        run: bin/rails db:schema:load
 
       # Run tests
       - name: Run tests
