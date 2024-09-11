@@ -1,21 +1,17 @@
-# This workflow uses actions that are not certified by GitHub.  They are
-# provided by a third-party and are governed by separate terms of service,
-# privacy policy, and support documentation.
-#
-# This workflow will install a prebuilt Ruby version, install dependencies, and
-# run tests and linters.
 name: "Ruby on Rails CI"
+
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
 jobs:
   test:
     runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres
+        image: postgres:12
         ports:
           - "5432:5432"
         env:
@@ -24,29 +20,35 @@ jobs:
           POSTGRES_PASSWORD: ${{ secrets.PGPASSWORD }}
     env:
       RAILS_ENV: test
-      DATABASE_URL: "${{ secrets.DATABASE_URL }}"
+      RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      # Add or replace dependency steps here
+      
+      # Install Ruby and dependencies
       - name: Install Ruby and gems
-        uses: ruby/setup-ruby@78c01b705fd9d5ad960d432d3a0cfa341d50e410 # v1.179.1
+        uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+
       - name: Install Gems
         run: bundle install
-      # Add or replace database setup steps here
+
+      # Set up database
       - name: Set up database schema
         env:
           RAILS_ENV: test
-          DATABASE_URL: "${{ secrets.DATABASE_URL }}"
+          RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
         run: |
           bin/rails db:create
           bin/rails db:migrate
           bin/rails db:test:prepare
-      # Add or replace test runners here
+
+      # Run tests
       - name: Run tests
         run: bundle exec rspec spec/
+
+      # Upload code coverage report
       - name: Create Coverage Artifact
         uses: actions/upload-artifact@v4
         with:
