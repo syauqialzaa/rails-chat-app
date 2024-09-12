@@ -1,12 +1,12 @@
 databases:
-  - name: rails-chat-app
+  - name: rails_chat
     databaseName: rails_chat
     user: rails_chat
     plan: free
 
 services:
   - type: web
-    name: rails-chat-app
+    name: rails_chat
     runtime: ruby
     plan: free
     buildCommand: "./bin/render-build.sh"
