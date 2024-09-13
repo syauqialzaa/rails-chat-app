@@ -23,6 +23,7 @@ end
 
 group :development do
   gem "web-console"
+  gem "rails-erd"
 end
 
 group :test do
